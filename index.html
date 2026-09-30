@@ -241,6 +241,8 @@ a.btn{text-decoration:none;color:inherit}
 .mtab{flex:1;min-width:220px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--bg2);cursor:pointer;text-align:right}
 .mtab b{font-size:15px}.mtab span{font-size:12px;color:var(--muted)}
 .mtab.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 16%,var(--bg2));box-shadow:0 0 16px rgba(54,224,176,.25)}
+.livestat{width:100%;order:9;font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg2)}
+.livestat.ok{border-color:var(--teal);color:var(--teal)}.livestat.bad{border-color:var(--red);color:#ff9a94}.livestat.wait{border-color:var(--amber);color:var(--amber)}
 .card{min-width:0}
 .form{grid-template-columns:minmax(0,1fr)}
 .form>label{min-width:0}
@@ -306,6 +308,7 @@ a.btn{text-decoration:none;color:inherit}
       </div>
       <div class="spacer"></div>
       <span class="hint" id="todayLbl"></span>
+      <div id="liveStat" class="livestat" style="display:none"></div>
     </div>
     <section id="view"></section>
   </main>
@@ -639,8 +642,8 @@ function renderChrome(){
   $('#brandLogo').src=S.settings.logo||DEFAULT_LOGO;
   const fv=document.getElementById('favi');if(fv)fv.href=appIcon();
   $('#brandName').textContent=S.settings.company;
-  const vm=$('#vMonth');vm.innerHTML=MONTHS.map(m=>`<option ${m===S.settings.month?'selected':''}>${m}</option>`).join('');
-  $('#vYear').value=D(S.settings.year);
+  const vm=$('#vMonth');if(vm)vm.innerHTML=MONTHS.map(m=>`<option ${m===S.settings.month?'selected':''}>${m}</option>`).join('');
+  if($('#vYear'))$('#vYear').value=D(S.settings.year);
   $('#todayLbl').textContent='امروز '+D(shamsi());
   if(VIEWER){document.querySelector('.validity').innerHTML=`<span>اعتبار قیمت‌ها تا پایان ${esc(S.settings.month)} ${D(S.settings.year)}</span>`;if(S.publishedAt){const u=new Date(S.publishedAt);$('#todayLbl').textContent='به‌روزرسانی: '+u.toLocaleDateString('fa-IR')+' — ساعت '+u.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'})}$('#viewTitle').textContent='لیست قیمت محصولات';document.title='لیست قیمت محصولات '+S.settings.company}
 }
@@ -1498,7 +1501,7 @@ function renderOnlineSite(){
   $('#onKeyNew').onclick=()=>confirmBox('ساخت کلید جدید','بعد از ساخت کلید جدید باید فایل arax-api.php را دوباره بسازید و روی سایت جایگزین کنید.','ساخت کلید جدید',()=>{delete o.key;onlineCfg();o.imgHash='';o.catKey='';save();renderOnline()});
 }
 /* ---------- ONLINE LINK via GitHub Pages (free, no own server) ---------- */
-const BUILD_ID='726ddade30';
+const BUILD_ID='9ce768a872';
 function ghCfg(){const o=onlineCfg();o.gh=o.gh||{repo:'arax-pricelist',token:'',owner:'',api:'https://api.github.com',files:{}};o.gh.files=o.gh.files||{};return o.gh}
 function ghBase(){const g=ghCfg();if(!g.owner)return '';return g.repo.toLowerCase()===(g.owner+'.github.io').toLowerCase()?`https://${g.owner.toLowerCase()}.github.io/`:`https://${g.owner.toLowerCase()}.github.io/${g.repo}/`}
 async function gh(method,path,body){const g=ghCfg();
@@ -1552,6 +1555,7 @@ async function publishGithub(silent){
       if(catKey&&ver.catalog)d.catalogFile='catalog.pdf?v='+ver.catalog;
       d.publishedAt=now;ver.data=now;
       files.push({path:'data.json',key:dh,getB64:()=>b64OfText(JSON.stringify(d))});
+      if(!files.some(f=>f.path==='index.html'))files.push({path:'index.html',key:BUILD_ID+'|'+iconKey+'|'+(catKey?1:0)+'|'+strHash(S.settings.company||''),getB64:()=>b64OfText(ghPageHtml())});
       files.push({path:'ver.json',key:String(now),getB64:()=>b64OfText(JSON.stringify(ver))});
     }
     // skip if only data unchanged
@@ -1617,19 +1621,32 @@ function renderOnline(){
     $('#ghCopy').onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>toast('لینک کپی شد')).catch(()=>prompt('لینک:',url))}}
 }
 /* viewer side: load the latest data from the site and keep checking for changes */
+function liveStatus(kind,msg){
+  const el=document.getElementById('liveStat');if(!el)return;el.style.display='';el.className='livestat '+kind;
+  el.innerHTML=msg+(kind==='bad'?' <button class="btn ghost" id="liveRetry" style="padding:3px 10px;font-size:12px">تلاش دوباره</button>':'');
+  const b=document.getElementById('liveRetry');if(b)b.onclick=()=>{liveStatus('wait','در حال دریافت آخرین قیمت‌ها…');LIVE_CHECK&&LIVE_CHECK(true).catch(()=>{})};
+}
+let LIVE_CHECK=null;
 async function onlineLoad(){
   const src=S.onlineSrc;if(!src||!(src.api||src.static))return;const api=src.api;let ver={};
+  const when=ts=>{if(!ts)return '';const u=new Date(ts);return u.toLocaleDateString('fa-IR')+' ساعت '+u.toLocaleTimeString('fa-IR',{hour:'2-digit',minute:'2-digit'})};
   const get=async f=>{const r=await fetch(src.static?(f+'.json?t='+Date.now()):(api+'?a=get&f='+f+'&t='+Date.now()),{cache:'no-store'});if(!r.ok)throw new Error(r.status);return r.json()};
   const check=async(force)=>{
-    const r=await fetch(src.static?('ver.json?t='+Date.now()):(api+'?a=ver&t='+Date.now()),{cache:'no-store'});if(!r.ok)return;const v=await r.json();
-    if(!force&&v.data===ver.data&&v.images===ver.images)return;
-    const d=await get('data');if(!d||!d.sheets)return;
-    let imgs=S.images||{};if(force||v.images!==ver.images||d.imgHash!==S.imgHash){const x=await get('images');if(x)imgs=x}
-    ver=v;const keep=curSheet;const onCat=curSheet==='catalog';
-    S=Object.assign(d,{images:imgs,onlineSrc:src});curSheet=keep;CAT_BLOB=null;CAT_URL=null;CAT_DOC=null;
-    renderChrome();if(!onCat||force)renderLists();
+    try{
+      const r=await fetch(src.static?('ver.json?t='+Date.now()):(api+'?a=ver&t='+Date.now()),{cache:'no-store'});if(!r.ok)throw new Error('ver '+r.status);const v=await r.json();
+      if(force||v.data!==ver.data||v.images!==ver.images){
+        const d=await get('data');if(!d||!d.sheets)throw new Error('data');
+        let imgs=S.images||{};if(force||v.images!==ver.images||d.imgHash!==S.imgHash){const x=await get('images');if(x)imgs=x}
+        ver=v;const keep=curSheet;const onCat=curSheet==='catalog';
+        S=Object.assign(d,{images:imgs,onlineSrc:src});curSheet=keep;CAT_BLOB=null;CAT_URL=null;CAT_DOC=null;
+        renderChrome();if(!onCat||force)renderLists();
+      }
+      liveStatus('ok','✓ قیمت‌ها به‌روز است — آخرین به‌روزرسانی: '+D(when(S.publishedAt)));
+    }catch(e){console.warn(e);liveStatus('bad','⚠ دریافت آخرین قیمت‌ها انجام نشد؛ قیمت‌های نمایش‌داده‌شده مربوط به '+(S.publishedAt?D(when(S.publishedAt)):'نسخه‌ی ذخیره‌شده')+' است.');throw e}
   };
-  try{await check(true)}catch(e){console.warn('online load failed; showing the saved copy',e)}
+  LIVE_CHECK=check;
+  liveStatus('wait','در حال دریافت آخرین قیمت‌ها…');
+  try{await check(true)}catch(e){}
   setInterval(()=>{if(document.visibilityState==='visible')check(false).catch(()=>{})},src.static?60000:20000);
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')check(false).catch(()=>{})});
 }
