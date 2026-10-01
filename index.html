@@ -243,6 +243,7 @@ a.btn{text-decoration:none;color:inherit}
 .mtab.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 16%,var(--bg2));box-shadow:0 0 16px rgba(54,224,176,.25)}
 .livestat{width:100%;order:9;font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg2)}
 .livestat.ok{border-color:var(--teal);color:var(--teal)}.livestat.bad{border-color:var(--red);color:#ff9a94}.livestat.wait{border-color:var(--amber);color:var(--amber)}
+.pl-foot .flbox{display:inline-block;text-align:right;max-width:100%;vertical-align:top}
 .pl-foot .fl1{white-space:nowrap;overflow:hidden;line-height:1.75}
 .renlist{display:flex;flex-direction:column;gap:10px;max-height:58vh;overflow:auto;padding:2px}
 .renrow{display:grid;grid-template-columns:1fr 1.4fr 1fr;gap:8px;background:var(--bg2);border:1.5px solid var(--line);border-radius:12px;padding:8px}
@@ -895,7 +896,7 @@ async function fitPages(root){
     const inner=pg.querySelector('.inner');inner.style.zoom='';
     const trs=[...inner.querySelectorAll('table.pl tbody tr:not(.gap)')];trs.forEach(tr=>tr.style.height='');
     // notes that must stay on one line: shrink the font until each fits
-    inner.querySelectorAll('.pl-foot .fl1').forEach(li=>{li.style.fontSize='';let fs=parseFloat(getComputedStyle(li).fontSize);let k=0;while(li.scrollWidth>li.clientWidth+1&&fs>7&&k<40){fs-=.3;li.style.fontSize=fs+'px';k++}});
+    inner.querySelectorAll('.pl-foot').forEach(ft=>{const W=ft.clientWidth-2;ft.querySelectorAll('.fl1').forEach(li=>{li.style.fontSize='';let fs=parseFloat(getComputedStyle(li).fontSize);let k=0;while(li.scrollWidth>W&&fs>7&&k<40){fs-=.3;li.style.fontSize=fs+'px';k++}})});
     inner.querySelectorAll('.pl-notes.oneline li').forEach(li=>{li.style.fontSize='';let fs=parseFloat(getComputedStyle(li).fontSize);let k=0;while(li.scrollWidth>li.clientWidth+1&&fs>8&&k<40){fs-=.3;li.style.fontSize=fs+'px';k++}});
     const foot=pg.querySelector('.pl-foot');
     const kids=[...inner.children].filter(e=>e!==foot);
@@ -1367,7 +1368,7 @@ function footerParts(){return footerAddrs().map(addrLine).filter(Boolean)}
 function footerWebsite(){const a=activeAddr();if(String(a.website||'').trim())return a.website.trim();const x=footerAddrs().find(a=>String(a.website||'').trim());return x?x.website.trim():''}
 function footerInner(){
   const parts=footerParts();const w=footerWebsite();
-  return parts.map(p=>`<div class="fl1">${D(esc(p))}</div>`).join('')+(w?`<b>${esc(w)}</b>`:'');
+  return (parts.length?`<div class="flbox">${parts.map(p=>`<div class="fl1">${D(esc(p))}</div>`).join('')}</div>`:'')+(w?`<b>${esc(w)}</b>`:'');
 }
 let EDIT_ADDR=null;
 function renderContact(){
@@ -1535,7 +1536,7 @@ function renderOnlineSite(){
   $('#onKeyNew').onclick=()=>confirmBox('ساخت کلید جدید','بعد از ساخت کلید جدید باید فایل arax-api.php را دوباره بسازید و روی سایت جایگزین کنید.','ساخت کلید جدید',()=>{delete o.key;onlineCfg();o.imgHash='';o.catKey='';save();renderOnline()});
 }
 /* ---------- ONLINE LINK via GitHub Pages (free, no own server) ---------- */
-const BUILD_ID='a756878e53';
+const BUILD_ID='452cf19f6b';
 function ghCfg(){const o=onlineCfg();o.gh=o.gh||{repo:'arax-pricelist',token:'',owner:'',api:'https://api.github.com',files:{}};o.gh.files=o.gh.files||{};return o.gh}
 function ghBase(){const g=ghCfg();if(!g.owner)return '';return g.repo.toLowerCase()===(g.owner+'.github.io').toLowerCase()?`https://${g.owner.toLowerCase()}.github.io/`:`https://${g.owner.toLowerCase()}.github.io/${g.repo}/`}
 async function gh(method,path,body){const g=ghCfg();
