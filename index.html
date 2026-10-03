@@ -314,6 +314,11 @@ a.btn{text-decoration:none;color:inherit}
 .smnextc{display:flex;flex-direction:column;gap:3px}.smnextc small{color:var(--sm);font-size:11.5px}.smnextc span{color:#ff8a80;font-weight:800}
 .smartt{border-color:#e63a2e!important}
 @media (max-width:700px){.smgrid2,.smcalc{grid-template-columns:1fr}.smtitle{font-size:21px}.smart{padding:10px;border-radius:16px}.smrow{grid-template-columns:48px 1fr;}.smthumb{width:48px;height:48px}.smpr{grid-column:2;flex-direction:row;align-items:baseline;gap:6px}}
+.smbig{width:100%;max-height:340px;object-fit:contain;background:#fff;border-radius:12px;cursor:zoom-in}
+.smthumbs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.smth{width:58px;height:58px;padding:2px;border-radius:9px;border:1.5px solid var(--sl);background:#fff;cursor:pointer}.smth.on{border-color:var(--sr);box-shadow:0 0 10px rgba(230,58,46,.45)}.smth img{width:100%;height:100%;object-fit:contain}
+.smup{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center;width:100%;padding-top:8px;border-top:1px dashed var(--sl);margin-top:4px}.smup small{width:100%;text-align:center;color:var(--sm);font-size:11.5px}
+.smzoom{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:80;display:flex;align-items:center;justify-content:center;padding:14px;cursor:zoom-out}.smzoom img{max-width:100%;max-height:100%;object-fit:contain;background:#fff;border-radius:8px}.smzoom span{position:absolute;top:14px;left:18px;color:#fff;font-size:26px}
 .card{min-width:0}
 .form{grid-template-columns:minmax(0,1fr)}
 .form>label{min-width:0}
@@ -593,6 +598,7 @@ function viewerData(catB64,catFile){
   const used=new Set(),imgs=new Set();
   d.sheets.forEach(sh=>{if(sh.badge)imgs.add(sh.badge);sh.tables.forEach(tb=>{gridOf(tb).forEach(o=>cellProducts(o.cell).forEach(id=>used.add(id)));Object.values(tb.imgs||{}).forEach(ks=>ks.forEach(k=>imgs.add(k)))})});
   d.products=d.products.filter(p=>used.has(p.id));
+  if(!S.smartHidden&&S.smartImgs){const vids=new Set(d.sheets.map(s=>s.id));d.smartImgs={};for(const id in S.smartImgs){if(vids.has(id.split(':')[0])){d.smartImgs[id]=S.smartImgs[id];S.smartImgs[id].forEach(k=>imgs.add(k))}}}else delete d.smartImgs;
   const im={};imgs.forEach(k=>{if(d.images&&d.images[k])im[k]=d.images[k]});d.images=im;
   if(d.settings.logo===DEFAULT_LOGO)delete d.settings.logo;
   if(d.settings.icon===DEFAULT_ICON)delete d.settings.icon;
@@ -1182,6 +1188,33 @@ function contactsList(){
 function smartTop(title){
   return `<div class="smtop"><div class="smlogo"><img src="${appIcon()}" alt=""></div><div class="smcrumb">${title}</div><button class="smbtn red" id="smInq">استعلام</button></div>`;
 }
+/* own photos for the dimension area of each smart-catalog model */
+function smartImgKeys(id){return ((S.smartImgs||{})[id]||[]).filter(k=>S.images[k])}
+function smartVisual(m){
+  const ks=smartImgKeys(m.id);const sel=Math.min(SM.vis||0,Math.max(0,ks.length-1));
+  let h='';
+  if(ks.length){
+    h+=`<img class="smbig" data-zoom="${ks[sel]}" src="${S.images[ks[sel]]}" alt="ابعاد ${esc(m.title)}">`;
+    if(ks.length>1)h+=`<div class="smthumbs">${ks.map((k,i)=>`<button class="smth ${i===sel?'on':''}" data-vis="${i}"><img src="${S.images[k]}" alt=""></button>`).join('')}</div>`;
+  }else h+=`${m.img?`<img class="smimg" src="${S.images[m.img]}" alt="">`:''}${isoBox(m.dims,m.unit==='متر مربع')}`;
+  if(!VIEWER)h+=`<div class="smup"><button class="smbtn" id="smUp">＋ آپلود عکس‌های ابعاد این محصول</button>${ks.length?`<button class="smbtn" id="smDel">حذف این عکس</button>`:''}<small>${ks.length?`${D(ks.length)} عکس — عکس‌ها به‌جای نقشه‌ی خودکار ابعاد نمایش داده می‌شوند.`:'می‌توانید یک یا چند عکس (مثلاً نقشه‌ی ابعاد یا عکس محصول از زوایای مختلف) آپلود کنید.'}</small></div>`;
+  return h;
+}
+function wireSmartVisual(p,m){
+  p.querySelectorAll('.smth').forEach(b=>b.onclick=()=>{SM.vis=+b.dataset.vis;renderSmart()});
+  const big=p.querySelector('.smbig');if(big)big.onclick=()=>{const k=big.dataset.zoom;const ov=document.createElement('div');ov.className='smzoom';ov.innerHTML=`<img src="${S.images[k]}" alt=""><span>✕</span>`;ov.onclick=()=>ov.remove();document.body.appendChild(ov)};
+  const up=p.querySelector('#smUp');if(up)up.onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.multiple=true;
+    inp.onchange=async()=>{const fs=[...inp.files];if(!fs.length)return;toast('در حال آماده‌سازی عکس‌ها…');for(const f of fs){await storeSmartImage(f,m.id)}SM.vis=smartImgKeys(m.id).length-1;save();renderSmart();toast(D(fs.length)+' عکس اضافه شد')};inp.click()};
+  const del=p.querySelector('#smDel');if(del)del.onclick=()=>confirmBox('حذف عکس','این عکس از کاتالوگ هوشمند حذف شود؟','حذف',()=>{const ks=smartImgKeys(m.id);const k=ks[Math.min(SM.vis||0,ks.length-1)];S.smartImgs[m.id]=ks.filter(x=>x!==k);delete S.images[k];if(!S.smartImgs[m.id].length)delete S.smartImgs[m.id];SM.vis=0;save();renderSmart()});
+}
+function storeSmartImage(f,id){
+  return new Promise(res=>{if(!/^image\//.test(f.type)){res();return}
+    const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{
+      const sc=Math.min(1,1100/Math.max(img.width,img.height));const c=document.createElement('canvas');c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);
+      const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);
+      const key='sm'+Date.now().toString(36)+Math.random().toString(36).slice(2,5);S.images[key]=c.toDataURL('image/jpeg',.85);
+      S.smartImgs=S.smartImgs||{};(S.smartImgs[id]=S.smartImgs[id]||[]).push(key);res()};img.onerror=()=>res();img.src=r.result};r.readAsDataURL(f)});
+}
 function renderSmart(){
   const p=$('#smartPanel');if(!p)return;const models=smartModels();
   if(SM.view==='model'){const m=models.find(x=>x.id===SM.id);if(m)return renderSmartModel(p,m,models);SM.view='home'}
@@ -1209,7 +1242,7 @@ function renderSmart(){
       <span class="smpr"><small>${m.min!==m.max?'از':''}</small><b>${fmt(m.min)}</b><small>ریال / ${esc(m.unit)}</small></span></button>`).join('')||'<div class="smempty">مدلی با این مشخصات پیدا نشد.</div>'}</div></div>`;
   p.querySelectorAll('.smchip').forEach(b=>b.onclick=()=>{SM[b.dataset.k]=b.dataset.v;if(b.dataset.k==='fam'){SM.color='all';SM.dims='all'}renderSmart()});
   const qi=$('#smQ');qi.oninput=()=>{SM.q=qi.value;const pos=qi.selectionStart;renderSmart();const n=$('#smQ');n.focus();n.setSelectionRange(pos,pos)};
-  p.querySelectorAll('.smrow').forEach(b=>b.onclick=()=>{SM.view='model';SM.id=b.dataset.id;SM.pick=0;SM.qty='';renderSmart();p.scrollIntoView({block:'start'})});
+  p.querySelectorAll('.smrow').forEach(b=>b.onclick=()=>{SM.view='model';SM.id=b.dataset.id;SM.pick=0;SM.qty='';SM.vis=0;renderSmart();p.scrollIntoView({block:'start'})});
   $('#smInq').onclick=()=>{SM.view='inq';SM.id=null;renderSmart()};
 }
 function renderSmartModel(p,m,models){
@@ -1226,7 +1259,7 @@ function renderSmartModel(p,m,models){
       <p class="smdesc">${D(esc([m.dims&&('ابعاد '+m.dims+' سانتی‌متر'),m.weight&&('وزن '+m.weight),m.cap&&('ظرفیت '+m.cap.replace(/\n/g,' / '))].filter(Boolean).join('، ')))}. تولید شده با ماشین‌آلات تمام اتوماتیک؛ قیمت تحویل درب کارخانه.</p>
       <div class="smbadges">${m.dims?`<span>${D(esc(m.dims))}</span>`:''}<span>${esc(m.unit)}</span><span class="red">${esc(S.settings.month)} ${D(S.settings.year)}</span></div></div>
     <div class="smgrid2">
-      <div class="smcard smvis">${m.img?`<img class="smimg" src="${S.images[m.img]}" alt="">`:''}${isoBox(m.dims,m.unit==='متر مربع')}</div>
+      <div class="smcard smvis">${smartVisual(m)}</div>
       <div class="smcard">
         ${m.prices.length>1?`<div class="smlab">انتخاب رنگ / نوع</div><div class="smchips">${m.prices.map((x,i)=>`<button class="smchip ${x===pick?'on':''}" data-pick="${i}">${colorDot(x.label)}${esc(x.label||'استاندارد')}</button>`).join('')}</div>`:''}
         <div class="smprice"><small>قیمت ${esc(pick.label||'')}</small><b>${fmt(unitP)}</b><small>ریال / ${esc(m.unit)}</small></div>
@@ -1238,11 +1271,12 @@ function renderSmartModel(p,m,models){
           ${pal?`<div><small>تعداد پالت</small><b>${D(pal)}</b></div>`:''}<div><small>مبلغ تقریبی</small><b class="red">${fmt(total)}</b><small>ریال</small></div>`:'<span class="hint">مقدار را وارد کنید تا تعداد، پالت و مبلغ حساب شود.</span>'}</div></div>
       <p class="smnote">مبلغ تقریبی و بدون مالیات بر ارزش افزوده و ودیعه‌ی پالت است.</p></div>
     <div class="smnav"><button class="smbtn red big" id="smInq2">استعلام و سفارش همین محصول</button>${next&&next!==m?`<button class="smbtn" id="smNext"><small>مدل بعدی</small>${D(esc(next.title))}</button>`:''}<button class="smbtn" id="smBack">بازگشت به فهرست</button></div></div>`;
+  wireSmartVisual(p,m);
   p.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{SM.pick=+b.dataset.pick;renderSmart()});
   const qi=$('#smQty');qi.oninput=()=>{SM.qty=qi.value;const pos=qi.selectionStart;renderSmart();const n=$('#smQty');n.focus();n.setSelectionRange(pos,pos)};
   $('#smHome').onclick=$('#smBack').onclick=()=>{SM.view='home';renderSmart()};
   $('#smInq').onclick=$('#smInq2').onclick=()=>{SM.view='inq';renderSmart();p.scrollIntoView({block:'start'})};
-  if($('#smNext'))$('#smNext').onclick=()=>{SM.id=next.id;SM.pick=0;SM.qty='';renderSmart();p.scrollIntoView({block:'start'})};
+  if($('#smNext'))$('#smNext').onclick=()=>{SM.id=next.id;SM.pick=0;SM.qty='';SM.vis=0;renderSmart();p.scrollIntoView({block:'start'})};
 }
 function renderSmartInq(p,m){
   const pick=m?(m.prices[Math.min(SM.pick,m.prices.length-1)]||m.prices[0]):null;
@@ -1765,7 +1799,7 @@ function renderOnlineSite(){
   $('#onKeyNew').onclick=()=>confirmBox('ساخت کلید جدید','بعد از ساخت کلید جدید باید فایل arax-api.php را دوباره بسازید و روی سایت جایگزین کنید.','ساخت کلید جدید',()=>{delete o.key;onlineCfg();o.imgHash='';o.catKey='';save();renderOnline()});
 }
 /* ---------- ONLINE LINK via GitHub Pages (free, no own server) ---------- */
-const BUILD_ID='0005d3b5d0';
+const BUILD_ID='002232665b';
 function ghCfg(){const o=onlineCfg();o.gh=o.gh||{repo:'arax-pricelist',token:'',owner:'',api:'https://api.github.com',files:{}};o.gh.files=o.gh.files||{};return o.gh}
 function ghBase(){const g=ghCfg();if(!g.owner)return '';return g.repo.toLowerCase()===(g.owner+'.github.io').toLowerCase()?`https://${g.owner.toLowerCase()}.github.io/`:`https://${g.owner.toLowerCase()}.github.io/${g.repo}/`}
 async function gh(method,path,body){const g=ghCfg();
