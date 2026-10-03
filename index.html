@@ -271,6 +271,49 @@ a.btn{text-decoration:none;color:inherit}
 .backbtn{width:100%;justify-content:center;margin-bottom:10px;border-color:var(--teal)}
 @media (max-width:600px){.menugrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.menugrid .nt{min-height:92px;font-size:14px}}
 @media (min-width:901px){.viewer .backbtn{display:none}}
+.smart{--sb:#0e0e11;--sc:#17171c;--sl:#2a2a32;--sr:#e63a2e;--st:#f2f2f4;--sm:#8b8b95;background:var(--sb);color:var(--st);border-radius:22px;padding:14px;border:1px solid #232329;font-family:inherit}
+.smtop{display:flex;align-items:center;gap:10px;padding:4px 2px 12px;border-bottom:1px solid var(--sl);margin-bottom:12px}
+.smlogo img{width:34px;height:34px;border-radius:8px;background:#fff;object-fit:contain;display:block}
+.smcrumb{flex:1;font-size:12.5px;color:var(--sm);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.smcrumb b{color:var(--st)}.smcrumb a{cursor:pointer;color:var(--sm);text-decoration:underline dotted}
+.smbtn{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1.5px solid var(--sl);background:var(--sc);color:var(--st);border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer;text-decoration:none;font-size:13.5px}
+.smbtn small{font-size:10.5px;color:var(--sm);font-weight:600}.smbtn.red{border-color:var(--sr);color:#fff;background:transparent;box-shadow:inset 0 0 0 1px rgba(230,58,46,.25)}.smbtn.red.big{background:var(--sr)}
+.smhero{padding:4px 4px 12px}.smhero h2{margin:0 0 4px;font-size:19px}.smhero p{margin:0;color:var(--sm);font-size:13px}
+.smcard{background:var(--sc);border:1px solid var(--sl);border-radius:16px;padding:14px;margin-bottom:12px}
+.smlab{font-size:12px;color:var(--sm);margin:6px 0 6px}
+.smchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.smchip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--sl);background:#111115;color:var(--st);border-radius:9px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer}
+.smchip.on{background:var(--sr);border-color:var(--sr);color:#fff;box-shadow:0 0 14px rgba(230,58,46,.35)}
+.cdot{width:12px;height:12px;border-radius:50%;display:inline-block;border:1px solid rgba(255,255,255,.35)}
+.smsearch{width:100%;margin-top:8px;background:#111115;border:1px solid var(--sl);border-radius:10px;padding:9px 12px;color:var(--st)}
+.smcount{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 10px;color:var(--sm);font-size:13px}.smcount b{color:var(--st);font-size:17px}
+.smlist{display:flex;flex-direction:column;gap:8px}
+.smrow{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;text-align:right;background:var(--sc);border:1px solid var(--sl);border-radius:14px;padding:8px 10px;cursor:pointer;color:var(--st)}
+.smrow:hover{border-color:var(--sr)}
+.smthumb{width:56px;height:56px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}.smthumb img{max-width:100%;max-height:100%;object-fit:contain}.smthumb svg{width:26px;color:var(--sr)}
+.smrt{display:flex;flex-direction:column;gap:2px;min-width:0}.smrt b{font-size:14.5px}.smrt small{color:var(--sm);font-size:12px}
+.smpr{display:flex;flex-direction:column;align-items:flex-start;gap:0;white-space:nowrap}.smpr b{font-size:15px;color:#fff}.smpr small{font-size:10.5px;color:var(--sm)}
+.smempty{color:var(--sm);text-align:center;padding:30px}
+.smtag{font-size:11px;letter-spacing:2px;color:var(--sm);display:flex;align-items:center;gap:8px}
+.pulse{width:28px;height:2px;background:linear-gradient(90deg,transparent,var(--sr),transparent);animation:smp 1.6s infinite}@keyframes smp{50%{opacity:.3}}
+.smtitle{margin:6px 0 6px;font-size:24px;font-weight:900}.smdesc{margin:0 0 10px;color:#c9c9d1;font-size:13.5px;line-height:1.9}
+.smbadges{display:flex;flex-wrap:wrap;gap:6px}.smbadges span{border:1px solid var(--sl);border-radius:6px;padding:3px 9px;font-size:12px;color:#c9c9d1}.smbadges .red{border-color:var(--sr);color:#ff8a80}
+.smgrid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.smgrid2 .smcard{margin-bottom:12px}
+.smvis{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:radial-gradient(circle at 50% 40%,#1f1f26,#141418)}
+.smimg{max-width:100%;max-height:170px;object-fit:contain;background:#fff;border-radius:12px;padding:6px}
+.iso{width:100%;max-width:330px}
+.smprice{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:1px solid var(--sl);border-radius:12px;margin:8px 0 10px;background:#111115}.smprice b{font-size:26px;color:#fff}.smprice small{color:var(--sm);font-size:12px}
+.smspecs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.smspec{border:1px solid var(--sl);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;background:#111115}.smspec small{font-size:11px;color:var(--sm)}.smspec b{font-size:14px}.smspec b.red{color:var(--sr)}
+.smcalc{display:grid;grid-template-columns:minmax(160px,1fr) 2fr;gap:12px;align-items:end}.smcalc label{display:grid;gap:5px;font-size:12px;color:var(--sm)}.smcalc input{background:#111115;border:1px solid var(--sl);border-radius:10px;padding:10px 12px;color:var(--st);font-size:16px;font-weight:800}
+.smres{display:flex;flex-wrap:wrap;gap:8px}.smres>div{border:1px solid var(--sl);border-radius:10px;padding:7px 12px;display:flex;flex-direction:column;background:#111115;min-width:110px}.smres small{font-size:11px;color:var(--sm)}.smres b{font-size:17px}.smres b.red{color:#ff6b5e}
+.smnote{margin:10px 0 0;font-size:11.5px;color:var(--sm)}
+.smnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.smnav .smbtn{flex:1;min-width:150px}
+.smcts{display:flex;flex-direction:column;gap:8px;margin:8px 0 12px}
+.smct{display:grid;grid-template-columns:24px auto 1fr auto;gap:10px;align-items:center;border:1px solid var(--sl);border-radius:10px;padding:8px 10px;background:#111115}.smct a{color:#fff;font-weight:800;text-decoration:none;font-size:15px}.smct small{color:var(--sm)}.smct span{color:var(--sr)}
+.smct.addr{grid-template-columns:24px 1fr}.smct p{margin:0;font-size:13px;color:#d0d0d6}
+.smcopy{border:1px solid var(--sl);background:var(--sc);color:var(--st);border-radius:7px;padding:3px 10px;cursor:pointer;font-size:12px}
+.smnextc{display:flex;flex-direction:column;gap:3px}.smnextc small{color:var(--sm);font-size:11.5px}.smnextc span{color:#ff8a80;font-weight:800}
+.smartt{border-color:#e63a2e!important}
+@media (max-width:700px){.smgrid2,.smcalc{grid-template-columns:1fr}.smtitle{font-size:21px}.smart{padding:10px;border-radius:16px}.smrow{grid-template-columns:48px 1fr;}.smthumb{width:48px;height:48px}.smpr{grid-column:2;flex-direction:row;align-items:baseline;gap:6px}}
 .card{min-width:0}
 .form{grid-template-columns:minmax(0,1fr)}
 .form>label{min-width:0}
@@ -1073,17 +1116,163 @@ async function renderCatalogPanel(){
     const box=p.querySelector('.catbox');box.addEventListener('dragover',e=>{e.preventDefault()});box.addEventListener('drop',e=>{e.preventDefault();const f=e.dataTransfer.files&&e.dataTransfer.files[0];if(f)storeCatalog(f)})}
   showCatalogPages();
 }
+/* ---------- SMART CATALOG (کاتالوگ هوشمند) ---------- */
+const SPARK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>';
+const SM={view:'home',fam:'all',color:'all',dims:'all',q:'',id:null,pick:0,qty:''};
+const COLOR_HEX={'طوسی':'#9aa0a6','سیمانی':'#9aa0a6','قرمز':'#c0392b','مشکی':'#222','سیاه':'#222','سفید':'#f4f4f4','زرد':'#e7b416','آبی':'#2f6fd6','نارنجی':'#e67e22','سبز':'#27ae60','نخودی':'#d9c49a','کرمی':'#eadbb8'};
+function colorDot(lab){const k=Object.keys(COLOR_HEX).filter(c=>String(lab).includes(c));if(!k.length)return '';return `<i class="cdot" style="background:${k.length>1?`linear-gradient(90deg,${k.map(c=>COLOR_HEX[c]).join(',')})`:COLOR_HEX[k[0]]}"></i>`}
+function cellText(c){return typeof c==='string'?c:(c&&c.t)||''}
+function smartModels(){
+  const out=[];
+  S.sheets.filter(s=>!s.hidden).forEach(sh=>sh.tables.forEach((t,ti)=>{
+    const nc=t.cols.length,g=gridOf(t),at=(r,c)=>g.find(o=>o.r<=r&&r<o.r+o.rs&&o.c<=c&&c<o.c+o.cs);
+    const find=re=>t.cols.findIndex(h=>re.test(h));
+    const nameC=find(/نام|نوع کالا/),dimC=find(/ابعاد|سایز/),wC=find(/وزن/),capC=find(/ظرفیت/);
+    const band=String(t.band||'');const unit=/متر مربع/.test(band)?'متر مربع':/قالب/.test(band)?'قالب':/تن[,،)\s]|تن$|\(تن/.test(band+' '+t.cols.join(' '))?'تن':/قطعه|عدد/.test(band+' '+t.cols.join(' '))?'عدد':(/بلوک|آجر/.test(sh.name)?'عدد':'واحد');
+    const pc=priceCols(t);const names={};
+    for(let r=0;r<t.rows.length;r++){
+      const prices=[];const seen=new Set();
+      for(let c=0;c<nc;c++){if(!pc[c]&&!(at(r,c)&&at(r,c).cs>1))continue;const o=at(r,c);if(!o||seen.has(o))continue;seen.add(o);
+        const cell=o.cell;if(!cell||typeof cell!=='object')continue;
+        const hdr=t.cols.slice(o.c,o.c+o.cs).join(' / ').replace(/\(.*?\)/g,'').trim();
+        if(cell.p)prices.push({label:/قیمت/.test(hdr)?'':hdr,id:cell.p});
+        if(cell.m)cell.m.forEach(([lab,id])=>{if(id)prices.push({label:lab,id})});
+      }
+      const ok=prices.filter(p=>priceOf(p.id));if(!ok.length)continue;
+      const name=nameC>=0&&at(r,nameC)?cellText(at(r,nameC).cell).replace(/\n/g,' ').trim():'';
+      const dims=dimC>=0&&at(r,dimC)&&at(r,dimC).c===dimC?cellText(at(r,dimC).cell).replace(/\n/g,' ').trim():'';
+      const weight=wC>=0&&at(r,wC)?cellText(at(r,wC).cell).replace(/\n/g,' ').trim():'';
+      const cap=capC>=0&&at(r,capC)?cellText(at(r,capC).cell).trim():'';
+      const img=((t.imgs||{})[r]||[]).find(k=>k!=='new'&&S.images[k]);
+      names[name]=(names[name]||0)+1;
+      out.push({id:sh.id+':'+ti+':'+r,fam:sh.id,famName:sh.name,band,name,dims,weight,cap,unit,prices:ok,img});
+    }
+  }));
+  // a title for every model: name alone when unique, name + size when the family repeats names
+  const cnt={};out.forEach(m=>{const k=m.fam+'|'+m.name;cnt[k]=(cnt[k]||0)+1});
+  out.forEach(m=>{const dup=cnt[m.fam+'|'+m.name]>1;const nm=m.name&&m.name!=='-'?m.name:m.famName;m.title=dup&&m.dims?`${nm} ${m.dims.replace(/\s*(دوجداره|سه‌جداره|چهارجداره|چهار جداره).*/,'')}`.trim():nm;
+    const pr=m.prices.map(p=>priceOf(p.id)).filter(Boolean);m.min=Math.min(...pr);m.max=Math.max(...pr);});
+  return out;
+}
+function nums(s){return (toLatin(s).match(/\d+(?:[.\/]\d+)?/g)||[]).map(x=>parseFloat(x.replace('/','.')))}
+function perPallet(cap){const m=toLatin(cap).match(/(\d+)\s*×\s*(\d+)\s*پالت/);if(m)return +m[1];const n=nums(cap);return n.length===1?n[0]:0}
+function smartCalc(m){
+  const isBlock=/بلوک|آجر/.test(m.famName+' '+m.name);const dn=nums(m.dims);
+  if(m.unit==='متر مربع')return {kind:'area',label:'متراژ مورد نیاز (متر مربع)',per:1,pal:parseFloat(toLatin(m.cap))||0,palUnit:'متر مربع'};
+  if(isBlock&&dn.length>=2){const L=dn[0],H=dn[1];return {kind:'wall',label:'متراژ دیوار (متر مربع)',per:10000/(L*H),pal:perPallet(m.cap),palUnit:'عدد'}}
+  return {kind:'qty',label:`تعداد (${m.unit})`,per:1,pal:perPallet(m.cap),palUnit:m.unit};
+}
+function isoBox(dims,flat){
+  let n=nums(dims);if(n.length<3)return '';if(flat){const s=[...n].sort((x,y)=>y-x);n=[s[0],s[2],s[1]]}const [a,b,c]=n;const mx=Math.max(a,b,c);const k=120/mx;
+  const L=a*k,H=b*k,W=c*k;const cx=Math.cos(Math.PI/6),sy=.5;
+  const P=(x,y,z)=>[170+(x-z)*cx,150-y+(x+z)*sy*.6];
+  const pts=[[0,0,0],[L,0,0],[L,H,0],[0,H,0],[0,0,W],[L,0,W],[L,H,W],[0,H,W]].map(p=>P(...p));
+  const poly=(ids,fill)=>`<polygon points="${ids.map(i=>pts[i].join(',')).join(' ')}" fill="${fill}" stroke="#e63a2e" stroke-width="1.4"/>`;
+  const lab=(p,q,txt,off)=>{const mx=(p[0]+q[0])/2+off[0],my=(p[1]+q[1])/2+off[1];return `<text x="${mx}" y="${my}" fill="#ff6b5e" font-size="13" font-weight="800" text-anchor="middle">${D(txt)}</text>`};
+  return `<svg viewBox="0 0 340 250" class="iso">${poly([1,5,6,2],'#22222a')}${poly([3,2,6,7],'#3b3b46')}${poly([4,5,6,7],'#2d2d36')}
+    ${lab(pts[4],pts[5],a,[0,20])}${lab(pts[5],pts[6],b,[-16,0])}${lab(pts[5],pts[1],c,[16,14])}
+    <text x="170" y="242" fill="#8b8b95" font-size="11" text-anchor="middle">ابعاد به سانتی‌متر</text></svg>`;
+}
+function contactsList(){
+  const out=[];footerAddrs().forEach(a=>(a.lines||[]).forEach(l=>{if(l.show===false)return;const v=String(l.value||'');const lab=String(l.label||'');
+    const ph=toLatin(v).match(/0[\d\-\s]{7,}/g);if(ph&&/تلفن|همراه|موبایل|فکس|تماس/.test(lab+v))ph.forEach(p=>out.push({type:'tel',label:lab||a.name||'',value:p.trim()}));
+    else if(/آدرس|کارخانه|دفتر/.test(lab)||v.length>18)out.push({type:'addr',label:lab,value:v})}));
+  return out;
+}
+function smartTop(title){
+  return `<div class="smtop"><div class="smlogo"><img src="${appIcon()}" alt=""></div><div class="smcrumb">${title}</div><button class="smbtn red" id="smInq">استعلام</button></div>`;
+}
+function renderSmart(){
+  const p=$('#smartPanel');if(!p)return;const models=smartModels();
+  if(SM.view==='model'){const m=models.find(x=>x.id===SM.id);if(m)return renderSmartModel(p,m,models);SM.view='home'}
+  if(SM.view==='inq')return renderSmartInq(p,models.find(x=>x.id===SM.id));
+  const fams=[...new Map(models.map(m=>[m.fam,m.famName])).entries()];
+  let list=models.filter(m=>SM.fam==='all'||m.fam===SM.fam);
+  const colors=[...new Set(list.flatMap(m=>m.prices.map(x=>x.label)).filter(l=>l&&Object.keys(COLOR_HEX).some(c=>l.includes(c))))].slice(0,10);
+  if(SM.color!=='all'&&!colors.includes(SM.color))SM.color='all';
+  list=list.filter(m=>SM.color==='all'||m.prices.some(x=>x.label===SM.color));
+  const dimsOpts=SM.fam==='all'?[]:[...new Set(list.map(m=>m.dims.replace(/\s*(دوجداره|سه‌جداره|چهارجداره|چهار جداره).*/,'').trim()).filter(Boolean))].slice(0,14);
+  if(SM.dims!=='all'&&!dimsOpts.includes(SM.dims))SM.dims='all';
+  list=list.filter(m=>SM.dims==='all'||m.dims.startsWith(SM.dims));
+  const q=toLatin(SM.q).trim();if(q)list=list.filter(m=>toLatin(m.title+' '+m.dims+' '+m.famName).includes(q));
+  const chips=(key,opts,cur)=>`<div class="smchips">${[['all','همه'],...opts].map(([v,l])=>`<button class="smchip ${cur===v?'on':''}" data-k="${key}" data-v="${esc(v)}">${key==='color'&&v!=='all'?colorDot(l):''}${esc(l)}</button>`).join('')}</div>`;
+  p.innerHTML=`<div class="smart">${smartTop(`${esc(S.smartLabel||'کاتالوگ هوشمند')} محصولات ${D(S.settings.year||'')}`)}
+    <div class="smhero"><h2>محصول مناسب را در چند ثانیه پیدا کنید</h2><p>نوع محصول، رنگ و ابعاد را انتخاب کنید؛ مدل‌های منطبق با قیمت روز همین پایین نمایش داده می‌شوند.</p></div>
+    <div class="smcard"><div class="smlab">نوع محصول</div>${chips('fam',fams,SM.fam)}
+      ${colors.length?`<div class="smlab">رنگ</div>${chips('color',colors.map(c=>[c,c]),SM.color)}`:''}
+      ${dimsOpts.length>1?`<div class="smlab">ابعاد (سانتی‌متر)</div>${chips('dims',dimsOpts.map(d=>[d,D(d)]),SM.dims)}`:''}
+      <input class="smsearch" id="smQ" placeholder="جستجوی نام یا ابعاد…" value="${esc(SM.q)}"></div>
+    <div class="smcount"><span>مدل‌های منطبق:</span><b>${D(list.length)}</b></div>
+    <div class="smlist">${list.map(m=>`<button class="smrow" data-id="${esc(m.id)}">
+      <span class="smthumb">${m.img?`<img src="${S.images[m.img]}" alt="">`:SPARK}</span>
+      <span class="smrt"><b>${D(esc(m.title))}</b><small>${D(esc(m.famName))}${m.dims?' · '+D(esc(m.dims)):''}</small></span>
+      <span class="smpr"><small>${m.min!==m.max?'از':''}</small><b>${fmt(m.min)}</b><small>ریال / ${esc(m.unit)}</small></span></button>`).join('')||'<div class="smempty">مدلی با این مشخصات پیدا نشد.</div>'}</div></div>`;
+  p.querySelectorAll('.smchip').forEach(b=>b.onclick=()=>{SM[b.dataset.k]=b.dataset.v;if(b.dataset.k==='fam'){SM.color='all';SM.dims='all'}renderSmart()});
+  const qi=$('#smQ');qi.oninput=()=>{SM.q=qi.value;const pos=qi.selectionStart;renderSmart();const n=$('#smQ');n.focus();n.setSelectionRange(pos,pos)};
+  p.querySelectorAll('.smrow').forEach(b=>b.onclick=()=>{SM.view='model';SM.id=b.dataset.id;SM.pick=0;SM.qty='';renderSmart();p.scrollIntoView({block:'start'})});
+  $('#smInq').onclick=()=>{SM.view='inq';SM.id=null;renderSmart()};
+}
+function renderSmartModel(p,m,models){
+  const pick=m.prices[Math.min(SM.pick,m.prices.length-1)]||m.prices[0];const unitP=priceOf(pick.id);
+  const calc=smartCalc(m);const qn=parseNum(SM.qty)||0;
+  let need=0,pal=0,total=0;
+  if(qn>0){need=calc.kind==='wall'?Math.ceil(qn*calc.per):qn;total=(calc.kind==='area'?qn:need)*unitP;pal=calc.pal?Math.ceil((calc.kind==='area'?qn:need)/calc.pal):0}
+  const fam=models.filter(x=>x.fam===m.fam);const idx=fam.indexOf(m);const next=fam[(idx+1)%fam.length];
+  const spec=(k,v,red)=>v?`<div class="smspec"><small>${k}</small><b class="${red?'red':''}">${D(esc(v))}</b></div>`:'';
+  p.innerHTML=`<div class="smart">${smartTop(`<a id="smHome">${esc(S.smartLabel||'کاتالوگ هوشمند')}</a> › ${esc(m.famName)} › <b>${D(esc(m.title))}</b>`)}
+    <div class="smcard">
+      <div class="smtag">ARAX · ${esc(m.famName)} <span class="pulse"></span></div>
+      <h2 class="smtitle">${D(esc(m.title))}</h2>
+      <p class="smdesc">${D(esc([m.dims&&('ابعاد '+m.dims+' سانتی‌متر'),m.weight&&('وزن '+m.weight),m.cap&&('ظرفیت '+m.cap.replace(/\n/g,' / '))].filter(Boolean).join('، ')))}. تولید شده با ماشین‌آلات تمام اتوماتیک؛ قیمت تحویل درب کارخانه.</p>
+      <div class="smbadges">${m.dims?`<span>${D(esc(m.dims))}</span>`:''}<span>${esc(m.unit)}</span><span class="red">${esc(S.settings.month)} ${D(S.settings.year)}</span></div></div>
+    <div class="smgrid2">
+      <div class="smcard smvis">${m.img?`<img class="smimg" src="${S.images[m.img]}" alt="">`:''}${isoBox(m.dims,m.unit==='متر مربع')}</div>
+      <div class="smcard">
+        ${m.prices.length>1?`<div class="smlab">انتخاب رنگ / نوع</div><div class="smchips">${m.prices.map((x,i)=>`<button class="smchip ${x===pick?'on':''}" data-pick="${i}">${colorDot(x.label)}${esc(x.label||'استاندارد')}</button>`).join('')}</div>`:''}
+        <div class="smprice"><small>قیمت ${esc(pick.label||'')}</small><b>${fmt(unitP)}</b><small>ریال / ${esc(m.unit)}</small></div>
+        <div class="smspecs">${spec('ابعاد (cm)',m.dims)}${spec('وزن',m.weight)}${spec('ظرفیت',m.cap.replace(/\n/g,' — '))}${spec('واحد فروش',m.unit)}</div>
+      </div></div>
+    <div class="smcard"><div class="smlab">محاسبه‌گر سفارش</div>
+      <div class="smcalc"><label>${esc(calc.label)}<input id="smQty" inputmode="decimal" value="${esc(SM.qty)}" placeholder="مثلاً ${calc.kind==='qty'?'۱۰۰':'۵۰'}"></label>
+        <div class="smres">${qn>0?`${calc.kind==='wall'?`<div><small>تعداد بلوک لازم</small><b>${D(need.toLocaleString('en-US'))}</b></div>`:''}
+          ${pal?`<div><small>تعداد پالت</small><b>${D(pal)}</b></div>`:''}<div><small>مبلغ تقریبی</small><b class="red">${fmt(total)}</b><small>ریال</small></div>`:'<span class="hint">مقدار را وارد کنید تا تعداد، پالت و مبلغ حساب شود.</span>'}</div></div>
+      <p class="smnote">مبلغ تقریبی و بدون مالیات بر ارزش افزوده و ودیعه‌ی پالت است.</p></div>
+    <div class="smnav"><button class="smbtn red big" id="smInq2">استعلام و سفارش همین محصول</button>${next&&next!==m?`<button class="smbtn" id="smNext"><small>مدل بعدی</small>${D(esc(next.title))}</button>`:''}<button class="smbtn" id="smBack">بازگشت به فهرست</button></div></div>`;
+  p.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{SM.pick=+b.dataset.pick;renderSmart()});
+  const qi=$('#smQty');qi.oninput=()=>{SM.qty=qi.value;const pos=qi.selectionStart;renderSmart();const n=$('#smQty');n.focus();n.setSelectionRange(pos,pos)};
+  $('#smHome').onclick=$('#smBack').onclick=()=>{SM.view='home';renderSmart()};
+  $('#smInq').onclick=$('#smInq2').onclick=()=>{SM.view='inq';renderSmart();p.scrollIntoView({block:'start'})};
+  if($('#smNext'))$('#smNext').onclick=()=>{SM.id=next.id;SM.pick=0;SM.qty='';renderSmart();p.scrollIntoView({block:'start'})};
+}
+function renderSmartInq(p,m){
+  const pick=m?(m.prices[Math.min(SM.pick,m.prices.length-1)]||m.prices[0]):null;
+  const cts=contactsList();const w=footerWebsite();
+  const msg=m?`استعلام قیمت از ${S.settings.company}:\n${m.title}${pick&&pick.label?' — '+pick.label:''}${SM.qty?'\nمقدار: '+SM.qty+' '+(smartCalc(m).kind==='qty'?m.unit:'متر مربع'):''}\nقیمت لیست: ${fmt(priceOf(pick.id))} ریال`:`استعلام قیمت محصولات ${S.settings.company}`;
+  const tel=cts.filter(c=>c.type==='tel');const mob=tel.find(c=>/^09/.test(c.value.replace(/\D/g,'')));
+  p.innerHTML=`<div class="smart">${smartTop(`<a id="smHome">${esc(S.smartLabel||'کاتالوگ هوشمند')}</a> › <b>استعلام</b>`)}
+    <div class="smcard"><h2 class="smtitle" style="font-size:20px">${m?'استعلام '+D(esc(m.title)):'تماس و استعلام قیمت'}</h2>
+      <p class="smdesc">${m?'رنگ، مقدار و محل تحویل را اعلام کنید تا موجودی، قیمت نهایی و زمان تحویل اعلام شود.':'برای استعلام قیمت، موجودی و سفارش با ما تماس بگیرید.'}</p>
+      <div class="smcts">${cts.map(c=>c.type==='tel'?`<div class="smct"><span>☎</span><a href="tel:${esc(c.value.replace(/[^\d+]/g,''))}" dir="ltr">${D(esc(c.value))}</a><small>${esc(c.label)}</small><button class="smcopy" data-copy="${esc(c.value)}">کپی</button></div>`:`<div class="smct addr"><span>⌖</span><p>${D(esc((c.label?c.label+': ':'')+c.value))}</p></div>`).join('')}</div>
+      <div class="smnav">${tel[0]?`<a class="smbtn red big" href="tel:${esc(tel[0].value.replace(/[^\d+]/g,''))}">تماس تلفنی</a>`:''}${mob?`<a class="smbtn" href="sms:${esc(mob.value.replace(/[^\d+]/g,''))}?body=${encodeURIComponent(msg)}">ارسال پیامک استعلام</a>`:''}<button class="smbtn" id="smCopyMsg">کپی متن استعلام</button>${w?`<a class="smbtn" href="https://${esc(w.replace(/^https?:\/\//,''))}" target="_blank" rel="noopener" dir="ltr">${esc(w)}</a>`:''}</div></div>
+    ${m?`<div class="smcard smnextc"><small>محصول انتخاب‌شده</small><b>${D(esc(m.title))}${pick&&pick.label?' — '+esc(pick.label):''}</b><span>${fmt(priceOf(pick.id))} ریال / ${esc(m.unit)}</span></div>`:''}
+    <div class="smnav"><button class="smbtn" id="smBack">${m?'بازگشت به محصول':'بازگشت به فهرست'}</button></div></div>`;
+  const cp=txt=>{(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast('کپی شد')).catch(()=>prompt('متن:',txt))};
+  p.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>cp(b.dataset.copy));$('#smCopyMsg').onclick=()=>cp(msg);
+  $('#smHome').onclick=()=>{SM.view='home';renderSmart()};$('#smBack').onclick=()=>{SM.view=m?'model':'home';renderSmart()};$('#smInq').onclick=()=>{};
+}
 function renameDialog(){
   const catOf=s=>S.categories.find(c=>c.id===s.id);
   modal(`<h3>تغییر نام لیست‌ها</h3>
    <p class="hint" style="font-size:13.5px">نام هر لیست همان عنوانی است که روی دکمه‌های بالای «لیست‌های چاپی»، در لینک مشتری و در نام فایل‌های PDF و عکس نمایش داده می‌شود. عنوان بزرگ داخل خود برگه‌ی چاپی را هم می‌توانید همین‌جا تغییر دهید.</p>
    <div class="renlist">${S.sheets.map((s,i)=>`<div class="renrow"><label>نام دکمه<input data-rn="${i}" value="${esc(s.name)}"></label><label>عنوان داخل برگه‌ی چاپی<input data-rt="${i}" value="${esc(s.title||'')}"></label>${catOf(s)?`<label>نام گروه در بخش قیمت‌ها<input data-rc="${esc(s.id)}" value="${esc(catOf(s).name)}"></label>`:'<span></span>'}</div>`).join('')}
+    <div class="renrow"><label>نام دکمه‌ی کاتالوگ هوشمند<input id="rnSmart" value="${esc(S.smartLabel||'کاتالوگ هوشمند')}"></label><span></span><span></span></div>
     <div class="renrow"><label>نام دکمه‌ی کاتالوگ<input id="rnCat" value="${esc(S.catalogLabel||'کاتالوگ محصولات')}"></label><span></span><span></span></div></div>
    <div class="row"><button class="btn primary" id="rnOk">ثبت نام‌ها</button><button class="btn ghost" onclick="closeModal()">انصراف</button></div>`);
   $('#rnOk').onclick=()=>{
     document.querySelectorAll('[data-rn]').forEach(i=>{const v=i.value.trim();if(v)S.sheets[+i.dataset.rn].name=v});
     document.querySelectorAll('[data-rt]').forEach(i=>{const v=i.value.trim();if(v)S.sheets[+i.dataset.rt].title=v});
     document.querySelectorAll('[data-rc]').forEach(i=>{const v=i.value.trim();const c=S.categories.find(c=>c.id===i.dataset.rc);if(c&&v)c.name=v});
+    const sl=$('#rnSmart').value.trim();if(sl&&sl!=='کاتالوگ هوشمند')S.smartLabel=sl;else delete S.smartLabel;
     const cl=$('#rnCat').value.trim();if(cl&&cl!=='کاتالوگ محصولات')S.catalogLabel=cl;else delete S.catalogLabel;
     save();closeModal();go(VIEW);toast('نام‌ها ثبت شد');
   };
@@ -1091,9 +1280,9 @@ function renameDialog(){
 function visibilityDialog(){
   modal(`<h3>لیست‌هایی که نمایش داده شوند</h3>
    <p class="hint" style="font-size:13.5px">تیک هر لیستی را که می‌خواهید نمایش داده شود بزنید. لیست‌های بدون تیک در «لیست‌های چاپی»، «چاپ همه لیست‌ها» و فایل نسخه‌ی مشتری (لینک) نمایش داده نمی‌شوند. اطلاعات آن‌ها پاک نمی‌شود و هر وقت بخواهید دوباره نمایششان می‌دهید.</p>
-   <div class="vislist">${S.sheets.map(s=>{const cat=S.categories.find(c=>c.id===s.id)||S.categories.find(c=>c.id===({stair:'tcurb'})[s.id]);return `<label class="visrow" style="--c:${cat?cat.color:'#8aa'}"><input type="checkbox" data-vis="${s.id}" ${s.hidden?'':'checked'}><span class="dot"></span>${esc(s.name)}</label>`}).join('')}${S.catalog?`<label class="visrow" style="--c:#b69cff"><input type="checkbox" data-vis="catalog" ${S.catalogHidden?'':'checked'}><span class="dot"></span>کاتالوگ محصولات</label>`:''}</div>
+   <div class="vislist">${S.sheets.map(s=>{const cat=S.categories.find(c=>c.id===s.id)||S.categories.find(c=>c.id===({stair:'tcurb'})[s.id]);return `<label class="visrow" style="--c:${cat?cat.color:'#8aa'}"><input type="checkbox" data-vis="${s.id}" ${s.hidden?'':'checked'}><span class="dot"></span>${esc(s.name)}</label>`}).join('')}${S.catalog?`<label class="visrow" style="--c:#e63a2e"><input type="checkbox" data-vis="smart" ${S.smartHidden?'':'checked'}><span class="dot"></span>${esc(S.smartLabel||'کاتالوگ هوشمند')}</label><label class="visrow" style="--c:#b69cff"><input type="checkbox" data-vis="catalog" ${S.catalogHidden?'':'checked'}><span class="dot"></span>کاتالوگ محصولات</label>`:''}</div>
    <div class="row"><button class="btn" id="visAll">نمایش همه</button><button class="btn ghost" id="visNone">پنهان کردن همه</button><div class="spacer"></div><button class="btn primary" onclick="closeModal()">تأیید</button></div>`);
-  const apply=()=>{document.querySelectorAll('[data-vis]').forEach(c=>{if(c.dataset.vis==='catalog'){S.catalogHidden=!c.checked;return}const s=S.sheets.find(x=>x.id===c.dataset.vis);if(s)s.hidden=!c.checked});save();renderLists()};
+  const apply=()=>{document.querySelectorAll('[data-vis]').forEach(c=>{if(c.dataset.vis==='catalog'){S.catalogHidden=!c.checked;return}if(c.dataset.vis==='smart'){S.smartHidden=!c.checked;return}const s=S.sheets.find(x=>x.id===c.dataset.vis);if(s)s.hidden=!c.checked});save();renderLists()};
   document.querySelectorAll('[data-vis]').forEach(c=>c.onchange=apply);
   $('#visAll').onclick=()=>{document.querySelectorAll('[data-vis]').forEach(c=>c.checked=true);apply()};
   $('#visNone').onclick=()=>{document.querySelectorAll('[data-vis]').forEach(c=>c.checked=false);apply()};
@@ -1102,7 +1291,7 @@ function catalogOn(){return !!S.catalog&&!S.catalogHidden}
 const BOOK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 015.5 3H19v15H5.5A1.5 1.5 0 004 19.5z"/><path d="M4 19.5A1.5 1.5 0 005.5 21H19v-3M8 7h7M8 10.5h7"/></svg>';
 function renderLists(){
   const vis=S.sheets.filter(s=>!s.hidden);const cat=catalogOn();
-  const nShown=vis.length+(cat?1:0),nAll=S.sheets.length+(S.catalog?1:0);
+  const smart=!S.smartHidden&&vis.length>0;const nShown=vis.length+(cat?1:0)+(smart?1:0),nAll=S.sheets.length+(S.catalog?1:0)+1;
   const tools=`<div class="navtools"><button class="btn primary" id="printAll">${ICON.print}چاپ همه لیست‌ها</button>${VIEWER?'':`<button class="btn" id="visBtn" style="border-color:var(--blue)">${ICON.eye}انتخاب لیست‌های نمایشی (${D(nShown)} از ${D(nAll)})</button><button class="btn" id="renBtn" style="border-color:var(--violet)">${ICON.edit}تغییر نام لیست‌ها</button><button class="btn" id="custLink" style="border-color:var(--amber)">${ICON.share}نسخه‌ی مشتری (لینک)</button>`}${addrQuickSelect()}${VIEWER||S.catalog?'':`<button class="btn" id="catAdd" style="border-color:var(--violet)">${BOOK}افزودن کاتالوگ PDF</button>`}</div>`;
   const wire=()=>{if($('#addrSel'))$('#addrSel').onchange=e=>{S.settings.activeAddr=+e.target.value;save();renderLists();toast('آدرس پایین لیست‌ها عوض شد')};if(!VIEWER){$('#visBtn').onclick=visibilityDialog;$('#renBtn').onclick=renameDialog;$('#custLink').onclick=customerDialog;if($('#catAdd'))$('#catAdd').onclick=()=>{curSheet='catalog';pickCatalog()}}
     $('#printAll').onclick=()=>vis.length?doPrint(vis):toast('هیچ لیستی برای چاپ انتخاب نشده است');
@@ -1114,6 +1303,7 @@ function renderLists(){
     // customer link: start with the menu of lists (and catalog) to choose from
     const c0=s=>S.categories.find(c=>c.id===s.id)||S.categories.find(c=>c.id===({stair:'tcurb'})[s.id]);
     let mt=navRows(vis).flat().map(s=>{const c=c0(s);return `<button class="nt" data-s="${s.id}" style="--c:${c?c.color:'#8aa'}">${BRICK}<span>${esc(s.name)}</span></button>`}).join('');
+    if(smart)mt+=`<button class="nt catt smartt" data-s="smart" style="--c:#e63a2e">${SPARK}<span>${esc(S.smartLabel||'کاتالوگ هوشمند')}</span></button>`;
     if(cat)mt+=`<button class="nt catt" data-s="catalog" style="--c:#b69cff">${BOOK}<span>${esc(S.catalogLabel||'کاتالوگ محصولات')}</span></button>`;
     $('#view').innerHTML=`<div class="menuhome"><h2>فهرست محصولات</h2><p class="hint">برای دیدن قیمت‌ها، یکی از لیست‌ها${cat?' یا کاتالوگ':''} را انتخاب کنید.</p><div class="menugrid">${mt}</div></div>`;
     document.querySelectorAll('.menugrid .nt').forEach(b=>b.onclick=()=>{curSheet=b.dataset.s;renderLists();window.scrollTo({top:0});setTimeout(()=>{if(innerWidth<=900){const x=document.querySelector('.lvmain');if(x)x.scrollIntoView({block:'start'})}},40)});
@@ -1121,12 +1311,15 @@ function renderLists(){
   }
   if(curSheet==='catalog'&&!cat)curSheet=null;
   if(!vis.length)curSheet='catalog';
-  const sh=curSheet==='catalog'?null:(vis.find(s=>s.id===curSheet)||vis[0]);if(sh)curSheet=sh.id;
+  if(curSheet==='smart'&&!smart)curSheet=null;
+  const sh=(curSheet==='catalog'||curSheet==='smart')?null:(vis.find(s=>s.id===curSheet)||vis[0]);if(sh)curSheet=sh.id;
   const tile=s=>{const c=S.categories.find(c=>c.id===s.id)||S.categories.find(c=>c.id===({stair:'tcurb'})[s.id]);return `<button class="nt ${s.id===curSheet?'on':''}" data-s="${s.id}" style="--c:${c?c.color:'#8aa'}">${BRICK}<span>${esc(s.name)}</span></button>`};
   let tiles=navRows(vis).flat().map(tile).join('');
+  if(smart)tiles+=`<button class="nt ${curSheet==='smart'?'on':''}" data-s="smart" style="--c:#e63a2e">${SPARK}<span>${esc(S.smartLabel||'کاتالوگ هوشمند')}</span></button>`;
   if(cat)tiles+=`<button class="nt ${curSheet==='catalog'?'on':''}" data-s="catalog" style="--c:#b69cff">${BOOK}<span>${esc(S.catalogLabel||'کاتالوگ محصولات')}</span></button>`;
   const side=extra=>`<aside class="lvside"><div class="sidenav">${tiles}</div>${extra||''}${tools}</aside>`;
   const back=VIEWER?`<button class="btn backbtn" id="backMenu">☰ بازگشت به فهرست محصولات</button>`:'';
+  if(!sh&&curSheet==='smart'){$('#view').innerHTML=`<div class="lv">${side('')}<section class="lvmain">${back}<div id="smartPanel"></div></section></div>`;if($('#backMenu'))$('#backMenu').onclick=()=>{curSheet=null;renderLists();window.scrollTo({top:0})};wire();renderSmart();return}
   if(!sh){$('#view').innerHTML=`<div class="lv">${side('')}<section class="lvmain">${back}<div id="catPanel"></div></section></div>`;if($('#backMenu'))$('#backMenu').onclick=()=>{curSheet=null;renderLists();window.scrollTo({top:0})};wire();renderCatalogPanel();return}
   $('#view').innerHTML=`<div class="lv">${side(`<div class="sideact">
         <div class="sidecap">${esc(sh.name)}</div>
@@ -1572,7 +1765,7 @@ function renderOnlineSite(){
   $('#onKeyNew').onclick=()=>confirmBox('ساخت کلید جدید','بعد از ساخت کلید جدید باید فایل arax-api.php را دوباره بسازید و روی سایت جایگزین کنید.','ساخت کلید جدید',()=>{delete o.key;onlineCfg();o.imgHash='';o.catKey='';save();renderOnline()});
 }
 /* ---------- ONLINE LINK via GitHub Pages (free, no own server) ---------- */
-const BUILD_ID='fd956d3403';
+const BUILD_ID='0005d3b5d0';
 function ghCfg(){const o=onlineCfg();o.gh=o.gh||{repo:'arax-pricelist',token:'',owner:'',api:'https://api.github.com',files:{}};o.gh.files=o.gh.files||{};return o.gh}
 function ghBase(){const g=ghCfg();if(!g.owner)return '';return g.repo.toLowerCase()===(g.owner+'.github.io').toLowerCase()?`https://${g.owner.toLowerCase()}.github.io/`:`https://${g.owner.toLowerCase()}.github.io/${g.repo}/`}
 async function gh(method,path,body){const g=ghCfg();
