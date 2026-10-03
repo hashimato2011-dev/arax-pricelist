@@ -250,6 +250,18 @@ a.btn{text-decoration:none;color:inherit}
 .renrow label{display:grid;gap:3px;font-size:11.5px;color:var(--muted)}
 .renrow input{background:var(--panel);border:1.5px solid var(--line);border-radius:8px;padding:6px 9px;color:var(--ink);min-width:0}
 @media (max-width:700px){.renrow{grid-template-columns:1fr}}
+.lv{display:grid;grid-template-columns:270px minmax(0,1fr);gap:16px;align-items:start}
+.lvside{position:sticky;top:10px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 20px);overflow:auto;padding:2px 2px 8px}
+.sidenav{display:flex;flex-direction:column;gap:8px}
+.sidenav .nt{width:100%;min-height:50px;justify-content:flex-start;padding:8px 14px;font-size:14px}
+.lvside .navtools,.sideact{display:flex;flex-direction:column;align-items:stretch;gap:8px;margin:0}
+.lvside .navtools{padding-top:10px;border-top:1px solid var(--line)}
+.sideact{padding-top:10px;border-top:1px solid var(--line)}
+.sidecap{font-size:12.5px;color:var(--muted);text-align:center}
+.lvside .btn{justify-content:center;white-space:normal;text-align:center;line-height:1.5}
+.lvside .field{width:100%}
+.lvmain{min-width:0}
+@media (max-width:900px){.lv{grid-template-columns:minmax(0,1fr)}.lvside{position:static;max-height:none;overflow:visible}.sidenav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.sidenav .nt{flex-direction:column;justify-content:center;min-height:68px;padding:6px;font-size:12.5px}}
 .card{min-width:0}
 .form{grid-template-columns:minmax(0,1fr)}
 .form>label{min-width:0}
@@ -1085,27 +1097,28 @@ function renderLists(){
   const tools=`<div class="navtools"><button class="btn primary" id="printAll">${ICON.print}چاپ همه لیست‌ها</button>${VIEWER?'':`<button class="btn" id="visBtn" style="border-color:var(--blue)">${ICON.eye}انتخاب لیست‌های نمایشی (${D(nShown)} از ${D(nAll)})</button><button class="btn" id="renBtn" style="border-color:var(--violet)">${ICON.edit}تغییر نام لیست‌ها</button><button class="btn" id="custLink" style="border-color:var(--amber)">${ICON.share}نسخه‌ی مشتری (لینک)</button>`}${addrQuickSelect()}${VIEWER||S.catalog?'':`<button class="btn" id="catAdd" style="border-color:var(--violet)">${BOOK}افزودن کاتالوگ PDF</button>`}</div>`;
   const wire=()=>{if($('#addrSel'))$('#addrSel').onchange=e=>{S.settings.activeAddr=+e.target.value;save();renderLists();toast('آدرس پایین لیست‌ها عوض شد')};if(!VIEWER){$('#visBtn').onclick=visibilityDialog;$('#renBtn').onclick=renameDialog;$('#custLink').onclick=customerDialog;if($('#catAdd'))$('#catAdd').onclick=()=>{curSheet='catalog';pickCatalog()}}
     $('#printAll').onclick=()=>vis.length?doPrint(vis):toast('هیچ لیستی برای چاپ انتخاب نشده است');
-    document.querySelectorAll('.navgrid .nt').forEach(b=>b.onclick=()=>{curSheet=b.dataset.s;renderLists();if(curSheet==='catalog')setTimeout(()=>{const x=$('#catPanel');if(x)x.scrollIntoView({behavior:'smooth',block:'start'})},60)})};
+    document.querySelectorAll('.sidenav .nt').forEach(b=>b.onclick=()=>{curSheet=b.dataset.s;renderLists();if(innerWidth<=900)setTimeout(()=>{const x=$('#catPanel')||document.querySelector('.lvmain');if(x)x.scrollIntoView({behavior:'smooth',block:'start'})},60)})};
   if(!vis.length&&!cat){
     $('#view').innerHTML=`${tools}<div class="empty">هیچ لیستی برای نمایش انتخاب نشده است.${VIEWER?'':' دکمه‌ی «انتخاب لیست‌های نمایشی» را بزنید.'}</div>`;wire();return;
   }
   if(curSheet==='catalog'&&!cat)curSheet=null;
   if(!vis.length)curSheet='catalog';
   const sh=curSheet==='catalog'?null:(vis.find(s=>s.id===curSheet)||vis[0]);if(sh)curSheet=sh.id;
-  const rows=navRows(vis).map(r=>`<div class="navrow">${r.map(s=>{const c=S.categories.find(c=>c.id===s.id)||S.categories.find(c=>c.id===({stair:'tcurb'})[s.id]);return `<button class="nt ${s.id===curSheet?'on':''}" data-s="${s.id}" style="--c:${c?c.color:'#8aa'}">${BRICK}<span>${esc(s.name)}</span></button>`}).join('')}</div>`);
-  if(cat)rows.push(`<div class="navrow"><button class="nt ${curSheet==='catalog'?'on':''}" data-s="catalog" style="--c:#b69cff">${BOOK}<span>${esc(S.catalogLabel||'کاتالوگ محصولات')}</span></button></div>`);
-  if(!sh){$('#view').innerHTML=`<div class="navgrid">${rows.join('')}</div>${tools}<div id="catPanel"></div>`;wire();renderCatalogPanel();return}
-  $('#view').innerHTML=`<div class="navgrid">${rows.join('')}</div>
-    ${tools}
-    <div class="lists1">
-      <div class="editbar">
+  const tile=s=>{const c=S.categories.find(c=>c.id===s.id)||S.categories.find(c=>c.id===({stair:'tcurb'})[s.id]);return `<button class="nt ${s.id===curSheet?'on':''}" data-s="${s.id}" style="--c:${c?c.color:'#8aa'}">${BRICK}<span>${esc(s.name)}</span></button>`};
+  let tiles=navRows(vis).flat().map(tile).join('');
+  if(cat)tiles+=`<button class="nt ${curSheet==='catalog'?'on':''}" data-s="catalog" style="--c:#b69cff">${BOOK}<span>${esc(S.catalogLabel||'کاتالوگ محصولات')}</span></button>`;
+  const side=extra=>`<aside class="lvside"><div class="sidenav">${tiles}</div>${extra||''}${tools}</aside>`;
+  if(!sh){$('#view').innerHTML=`<div class="lv">${side('')}<section class="lvmain"><div id="catPanel"></div></section></div>`;wire();renderCatalogPanel();return}
+  $('#view').innerHTML=`<div class="lv">${side(`<div class="sideact">
+        <div class="sidecap">${esc(sh.name)}</div>
         <button class="btn primary" id="printOne">${ICON.print}چاپ / ذخیره PDF همین لیست</button>
-        <button class="btn" id="shareOne" style="border-color:var(--teal)">${ICON.share}ارسال</button>
-        ${VIEWER?'':`<button class="btn ${editing?'warn':''}" id="editT">${ICON.edit}${editing?'پایان ویرایش':'ویرایش متن‌ها و اتصال قیمت‌ها'}</button>
-        <span class="hint">${editing?'روی هر متن کلیک کنید و بنویسید. زیر هر قیمت می‌توانید کالای متصل را عوض کنید. {month} و {year} و {deposit} خودکار پر می‌شوند.':'قیمت‌ها مستقیماً از بخش «قیمت‌ها» خوانده می‌شوند.'}</span>`}
-      </div>
+        <button class="btn" id="shareOne" style="border-color:var(--teal)">${ICON.share}ارسال همین لیست</button>
+        ${VIEWER?'':`<button class="btn ${editing?'warn':''}" id="editT">${ICON.edit}${editing?'پایان ویرایش':'ویرایش متن‌ها و اتصال قیمت‌ها'}</button>`}
+      </div>`)}
+    <section class="lvmain">
+      ${VIEWER?'':`<p class="hint" style="margin:0 0 8px">${editing?'روی هر متن کلیک کنید و بنویسید. زیر هر قیمت می‌توانید کالای متصل را عوض کنید. {month} و {year} و {deposit} خودکار پر می‌شوند.':'قیمت‌ها مستقیماً از بخش «قیمت‌ها» خوانده می‌شوند.'}</p>`}
       <div class="stage"><div id="pageHost" class="${editing?'editing':''}">${pageHtml(sh,editing)}</div></div>
-    </div>`;
+    </section></div>`;
   wire();
   if(!VIEWER){$('#editT').onclick=()=>{editing=!editing;renderLists()}}
   $('#printOne').onclick=()=>doPrint([sh]);
@@ -1540,7 +1553,7 @@ function renderOnlineSite(){
   $('#onKeyNew').onclick=()=>confirmBox('ساخت کلید جدید','بعد از ساخت کلید جدید باید فایل arax-api.php را دوباره بسازید و روی سایت جایگزین کنید.','ساخت کلید جدید',()=>{delete o.key;onlineCfg();o.imgHash='';o.catKey='';save();renderOnline()});
 }
 /* ---------- ONLINE LINK via GitHub Pages (free, no own server) ---------- */
-const BUILD_ID='65d49484d9';
+const BUILD_ID='e4e2e7155b';
 function ghCfg(){const o=onlineCfg();o.gh=o.gh||{repo:'arax-pricelist',token:'',owner:'',api:'https://api.github.com',files:{}};o.gh.files=o.gh.files||{};return o.gh}
 function ghBase(){const g=ghCfg();if(!g.owner)return '';return g.repo.toLowerCase()===(g.owner+'.github.io').toLowerCase()?`https://${g.owner.toLowerCase()}.github.io/`:`https://${g.owner.toLowerCase()}.github.io/${g.repo}/`}
 async function gh(method,path,body){const g=ghCfg();
