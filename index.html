@@ -262,6 +262,15 @@ a.btn{text-decoration:none;color:inherit}
 .lvside .field{width:100%}
 .lvmain{min-width:0}
 @media (max-width:900px){.lv{grid-template-columns:minmax(0,1fr)}.lvside{position:static;max-height:none;overflow:visible}.sidenav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.sidenav .nt{flex-direction:column;justify-content:center;min-height:68px;padding:6px;font-size:12.5px}}
+.menuhome{max-width:900px;margin:10px auto;text-align:center}
+.menuhome h2{margin:0 0 4px;font-size:22px}
+.menugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:16px}
+.menugrid .nt{width:100%;min-height:86px;flex-direction:column;justify-content:center;gap:8px;font-size:16px}
+.menugrid .nt svg{width:30px;height:30px}
+.menugrid .catt{grid-column:1/-1;min-height:72px;flex-direction:row}
+.backbtn{width:100%;justify-content:center;margin-bottom:10px;border-color:var(--teal)}
+@media (max-width:600px){.menugrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.menugrid .nt{min-height:92px;font-size:14px}}
+@media (min-width:901px){.viewer .backbtn{display:none}}
 .card{min-width:0}
 .form{grid-template-columns:minmax(0,1fr)}
 .form>label{min-width:0}
@@ -798,7 +807,7 @@ function newCycle(){
 }
 
 /* ---------- PRINTABLE LISTS ---------- */
-let curSheet=S.sheets.find(s=>!s.hidden)?.id||S.sheets[0].id, editing=false;
+let curSheet=VIEWER?null:(S.sheets.find(s=>!s.hidden)?.id||S.sheets[0].id), editing=false;
 function priceCellHtml(id,edit){
   const v=priceOf(id);
   const shown=v?fmt(v):'<span class="na">تماس بگیرید</span>';
@@ -1101,6 +1110,15 @@ function renderLists(){
   if(!vis.length&&!cat){
     $('#view').innerHTML=`${tools}<div class="empty">هیچ لیستی برای نمایش انتخاب نشده است.${VIEWER?'':' دکمه‌ی «انتخاب لیست‌های نمایشی» را بزنید.'}</div>`;wire();return;
   }
+  if(VIEWER&&curSheet===null){
+    // customer link: start with the menu of lists (and catalog) to choose from
+    const c0=s=>S.categories.find(c=>c.id===s.id)||S.categories.find(c=>c.id===({stair:'tcurb'})[s.id]);
+    let mt=navRows(vis).flat().map(s=>{const c=c0(s);return `<button class="nt" data-s="${s.id}" style="--c:${c?c.color:'#8aa'}">${BRICK}<span>${esc(s.name)}</span></button>`}).join('');
+    if(cat)mt+=`<button class="nt catt" data-s="catalog" style="--c:#b69cff">${BOOK}<span>${esc(S.catalogLabel||'کاتالوگ محصولات')}</span></button>`;
+    $('#view').innerHTML=`<div class="menuhome"><h2>فهرست محصولات</h2><p class="hint">برای دیدن قیمت‌ها، یکی از لیست‌ها${cat?' یا کاتالوگ':''} را انتخاب کنید.</p><div class="menugrid">${mt}</div></div>`;
+    document.querySelectorAll('.menugrid .nt').forEach(b=>b.onclick=()=>{curSheet=b.dataset.s;renderLists();window.scrollTo({top:0});setTimeout(()=>{if(innerWidth<=900){const x=document.querySelector('.lvmain');if(x)x.scrollIntoView({block:'start'})}},40)});
+    return;
+  }
   if(curSheet==='catalog'&&!cat)curSheet=null;
   if(!vis.length)curSheet='catalog';
   const sh=curSheet==='catalog'?null:(vis.find(s=>s.id===curSheet)||vis[0]);if(sh)curSheet=sh.id;
@@ -1108,7 +1126,8 @@ function renderLists(){
   let tiles=navRows(vis).flat().map(tile).join('');
   if(cat)tiles+=`<button class="nt ${curSheet==='catalog'?'on':''}" data-s="catalog" style="--c:#b69cff">${BOOK}<span>${esc(S.catalogLabel||'کاتالوگ محصولات')}</span></button>`;
   const side=extra=>`<aside class="lvside"><div class="sidenav">${tiles}</div>${extra||''}${tools}</aside>`;
-  if(!sh){$('#view').innerHTML=`<div class="lv">${side('')}<section class="lvmain"><div id="catPanel"></div></section></div>`;wire();renderCatalogPanel();return}
+  const back=VIEWER?`<button class="btn backbtn" id="backMenu">☰ بازگشت به فهرست محصولات</button>`:'';
+  if(!sh){$('#view').innerHTML=`<div class="lv">${side('')}<section class="lvmain">${back}<div id="catPanel"></div></section></div>`;if($('#backMenu'))$('#backMenu').onclick=()=>{curSheet=null;renderLists();window.scrollTo({top:0})};wire();renderCatalogPanel();return}
   $('#view').innerHTML=`<div class="lv">${side(`<div class="sideact">
         <div class="sidecap">${esc(sh.name)}</div>
         <button class="btn primary" id="printOne">${ICON.print}چاپ / ذخیره PDF همین لیست</button>
@@ -1116,10 +1135,10 @@ function renderLists(){
         ${VIEWER?'':`<button class="btn ${editing?'warn':''}" id="editT">${ICON.edit}${editing?'پایان ویرایش':'ویرایش متن‌ها و اتصال قیمت‌ها'}</button>`}
       </div>`)}
     <section class="lvmain">
-      ${VIEWER?'':`<p class="hint" style="margin:0 0 8px">${editing?'روی هر متن کلیک کنید و بنویسید. زیر هر قیمت می‌توانید کالای متصل را عوض کنید. {month} و {year} و {deposit} خودکار پر می‌شوند.':'قیمت‌ها مستقیماً از بخش «قیمت‌ها» خوانده می‌شوند.'}</p>`}
+      ${back}${VIEWER?'':`<p class="hint" style="margin:0 0 8px">${editing?'روی هر متن کلیک کنید و بنویسید. زیر هر قیمت می‌توانید کالای متصل را عوض کنید. {month} و {year} و {deposit} خودکار پر می‌شوند.':'قیمت‌ها مستقیماً از بخش «قیمت‌ها» خوانده می‌شوند.'}</p>`}
       <div class="stage"><div id="pageHost" class="${editing?'editing':''}">${pageHtml(sh,editing)}</div></div>
     </section></div>`;
-  wire();
+  wire();if($('#backMenu'))$('#backMenu').onclick=()=>{curSheet=null;renderLists();window.scrollTo({top:0})};
   if(!VIEWER){$('#editT').onclick=()=>{editing=!editing;renderLists()}}
   $('#printOne').onclick=()=>doPrint([sh]);
   $('#shareOne').onclick=()=>shareDialog(sh);
@@ -1553,7 +1572,7 @@ function renderOnlineSite(){
   $('#onKeyNew').onclick=()=>confirmBox('ساخت کلید جدید','بعد از ساخت کلید جدید باید فایل arax-api.php را دوباره بسازید و روی سایت جایگزین کنید.','ساخت کلید جدید',()=>{delete o.key;onlineCfg();o.imgHash='';o.catKey='';save();renderOnline()});
 }
 /* ---------- ONLINE LINK via GitHub Pages (free, no own server) ---------- */
-const BUILD_ID='e4e2e7155b';
+const BUILD_ID='fd956d3403';
 function ghCfg(){const o=onlineCfg();o.gh=o.gh||{repo:'arax-pricelist',token:'',owner:'',api:'https://api.github.com',files:{}};o.gh.files=o.gh.files||{};return o.gh}
 function ghBase(){const g=ghCfg();if(!g.owner)return '';return g.repo.toLowerCase()===(g.owner+'.github.io').toLowerCase()?`https://${g.owner.toLowerCase()}.github.io/`:`https://${g.owner.toLowerCase()}.github.io/${g.repo}/`}
 async function gh(method,path,body){const g=ghCfg();
